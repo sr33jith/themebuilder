@@ -1,6 +1,9 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-
+import { Http, HttpModule, RequestOptions, XHRBackend } from '@angular/http';
+import { HttpClientModule, HttpClient } from '@angular/common/http';
+import { RouterModule, Router } from '@angular/router';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
@@ -26,7 +29,11 @@ import { QuillModule } from 'ngx-quill';
   imports: [
     BrowserModule,
     QuillModule,
-    AppRoutingModule
+    HttpModule,
+    HttpClientModule,
+    AppRoutingModule,
+    FormsModule,
+    ReactiveFormsModule
   ],
   providers: [BuilderService],
   bootstrap: [AppComponent]

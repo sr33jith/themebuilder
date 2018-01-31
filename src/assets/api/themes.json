@@ -1,0 +1,73 @@
+{
+	"themes": [
+		{
+			"themeId": "1",
+			"themeName": "classic",
+			"defaultPage": "home",
+			"pages": [
+				{
+					"pageId": "home",
+					"pageTitle": "Welcome to the new site",
+					"layout": "layout-home-1-row-2-col",
+					"sections": [
+						{
+							"sectionId": "left-side-col",
+							"sectionName": "Left Side col",
+							"sectionClass": "col-md-6",
+							"type": "html",
+							"position": "layout-home-2-row-col-1",
+							"bgColor": "yellow",
+							"component": "staticHtml",
+							"attributes": {
+								"content": ""
+							}
+						},
+						{
+							"sectionId": "right-side-col",
+							"sectionName": "Right Side col",
+							"sectionClass": "col-md-6",
+							"type": "html",
+							"position": "layout-home-2-row-col-2",
+							"bgColor": "green",
+							"component": "staticHtml",
+							"attributes": {
+								"content": ""
+							}
+						}
+					]
+				},
+				{
+					"pageId": "gallery",
+					"pageTitle": "Welcome to the Gallery",
+					"layout": "layout-gallery-1-row-2-col",
+					"sections": [
+						{
+							"sectionId": "left-side-col",
+							"sectionName": "Left Side col",
+							"sectionClass": "col-md-6",
+							"type": "html",
+							"position": "layout-home-2-row-col-1",
+							"bgColor": "yellow",
+							"component": "staticHtml",
+							"attributes": {
+								"content": ""
+							}
+						},
+						{
+							"sectionId": "right-side-col",
+							"sectionName": "Right Side col",
+							"sectionClass": "col-md-6",
+							"type": "html",
+							"position": "layout-home-2-row-col-2",
+							"bgColor": "green",
+							"component": "staticHtml",
+							"attributes": {
+								"content": ""
+							}
+						}
+					]
+				}
+			]
+		}
+	]
+}
