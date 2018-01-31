@@ -1,0 +1,114 @@
+.pull-right.control-group .add, .when-add-btn .add {
+    color: green;
+    font-size: 20px;
+}
+
+.pull-right.control-group .add{
+  float: right;
+}
+.delete fa{
+    color: red;
+    font-size: 20px;
+}
+
+.rule-container, .rule-when-container, .rule-then-container {
+    border: 1px #ccc solid;
+    padding: 5px;
+    margin-bottom: 5px;
+    border-radius: 5px;
+}
+.rule-when-container {
+  padding: 8px !important;
+}
+.when-container {
+    position: relative !important;
+}
+
+.when-add-btn {
+    margin: 0 auto;
+    position: absolute !important;
+    bottom: 0% !important;
+    right: 0% !important;
+}
+
+/* The switch - the box around the slider */
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 50px;
+  height: 28px;
+}
+
+/* Hide default HTML checkbox */
+.switch input {display:none;}
+
+/* The slider */
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 20px;
+  width: 20px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+input:checked + .slider {
+  background-color: #2196F3;
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px #2196F3;
+}
+
+input:checked + .slider:before {
+  -webkit-transform: translateX(20px);
+  -ms-transform: translateX(20px);
+  transform: translateX(20px);
+}
+
+/* Rounded sliders */
+.slider.round {
+  border-radius: 30px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
+}
+
+.braces-select select {
+  padding: 0px !important;
+  width: 160% !important;
+}
+
+.braces-select.pull-left select {
+  margin-left: -10px !important;
+}
+.condition-select select {
+  padding: 0px !important;
+  width: 130% !important;
+}
+.field-type-info {
+  display: block;
+  padding: 1px;
+  background-color: yellowgreen;
+  color: #000000;
+  font-size: 12px;
+  margin-left: 3px;
+  margin-top: 2px;
+  width: 95%;
+}

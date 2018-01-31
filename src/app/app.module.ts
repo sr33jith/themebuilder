@@ -11,7 +11,9 @@ import { PagecontentComponent } from './theme/builder/pagecontent/pagecontent.co
 
 import { BuilderService } from './theme/builder/builder.service';
 
-import { TinymceModule } from 'angular2-tinymce';
+// import { TinymceModule } from 'angular2-tinymce';
+
+import { QuillModule } from 'ngx-quill';
 
 @NgModule({
   declarations: [
@@ -23,7 +25,7 @@ import { TinymceModule } from 'angular2-tinymce';
   ],
   imports: [
     BrowserModule,
-    TinymceModule.withConfig({}),
+    QuillModule,
     AppRoutingModule
   ],
   providers: [BuilderService],

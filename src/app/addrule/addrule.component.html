@@ -1,0 +1,249 @@
+<div class="container" *ngIf="!addingRule">
+  <h3>Add Rule</h3>
+  <form [formGroup]="ruleAddForm" (submit)="addRule()" novalidate>
+    <div class="form-group row">
+      <div class="col-md-10">
+        <label>Group Name</label>
+        <input type="text" formControlName="groupName" class="form-control input-sm" required [(ngModel)]="groupName">
+      </div>
+    </div>
+    <div class="row" *ngIf="groupName">
+      <div class="col-md-2 offset-md-10 pull-right control-group">
+        <span class="add"><fa name="plus-circle" (click)="addMore(i)"></fa></span>
+      </div>
+    </div>
+    <div class="form-group col-md-10 alert alert-danger" *ngIf="!ruleValidated">Rule validation failed!</div>
+    <div formArrayName="itemRows" *ngIf="groupName">
+      <!-- Check the correct way to iterate your form array -->
+      <div class="rule-container" *ngFor="let itemrow of ruleAddForm.controls.itemRows.controls; let i=index;" [formGroupName]="i">
+        <h5>Rule #{{ i + 1 }}
+          <span class="delete pull-right control-group">
+              <fa name="minus-circle" *ngIf="ruleAddForm.controls.itemRows.controls.length > 1" (click)="removeRule(i)"></fa>
+            </span>
+        </h5>
+        <div>
+          <div class="form-group row">
+            <div class="col-md-8">
+              <label><b>Rule Name</b></label>
+              <input formControlName="ruleName" class="form-control input-sm" required>
+            </div>
+            <div class="col-md-3">
+              <label><b>Salience</b></label>
+              <input formControlName="ruleNameDesc" type="number" class="form-control input-sm">
+            </div>
+          </div>
+          <div class="row col-md-2">
+            <label><b>When</b></label>
+          </div>
+          <div class="row when-container">
+            <div class="col-md-11">
+              <div formArrayName="itemWhenRows">
+                <div *ngFor="let whenrow of ruleAddForm.controls.itemRows.controls[i].controls.itemWhenRows.controls; let j=index"
+                  [formGroupName]="j">
+                  <div class="form-group row" *ngIf="j > 0">
+                    <div class="col-md-2 offset-md-5">
+                      <select class="form-control input-sm" formControlName="whenJoiner">
+                          <option value="AND">AND</option>
+                          <option value="OR">OR</option>
+                        </select>
+                    </div>
+                  </div>
+                  <div class="rule-when-container">
+                    <div class="row">
+                      <div class="col-md-5">
+                        <div class="row">
+                          <div class="col-md-2 braces-select">
+                            <label>Braces</label>
+                            <select class="form-control input-sm" formControlName="whenOpen">
+                              <option value="[">[</option>
+                              <option value="]">]</option>
+                              <option value="none">None</option>
+                            </select>
+                          </div>
+                          <div class="col-md-5">
+                            <label>Model</label>
+                            <select class="form-control input-sm" formControlName="whenModel" (change)="loadProperties($event, 0, i, j)">
+                              <option value="">Select</option>
+                              <option *ngFor="let m of modelList" value="{{ m.value }}">{{ m.label }}</option>
+                            </select>
+                          </div>
+                          <div class="col-md-5">
+                            <label>Property</label>
+                            <select class="form-control input-sm" formControlName="whenProperty" (change)="checkPropertyType($event, 0, i, j)">
+                              <option value="">Select</option>
+                              <option *ngFor="let p of propertyList[0][i][j]" value="{{ p.value }}">{{ p.label }}</option>
+                            </select>
+                            <div class="row field-type-info" *ngIf="propertyDataType[0][i][j] && propertyDataType[0][i][j] != ''">Selected Fieldtype {{ propertyDataType[0][i][j] }}</div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-md-2" style="padding-left:3px;">
+                        <div class="row">
+                          <div class="col-md-6 condition-select">
+                            <label>Condition</label>
+                            <select class="form-control input-sm" formControlName="whenComp">
+                              <option value="">Select</option>
+                              <option *ngFor="let comp of compareList" value="{{ comp.value }}">{{ comp.label }}</option>
+                            </select>
+                          </div>
+                          <div class="col-md-6">
+                            <label>Type</label>
+                            <select class="form-control input-sm" formControlName="whenValType" style="padding:0px; width:145%">
+                              <option value="value">Value</option>
+                              <option value="property">Property</option>
+                            </select>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-md-5" style="padding-left: 30px">
+                        <div class="row">
+                          <div class="col-md-10" style="padding-left:15px; right: 10px;" *ngIf="ruleAddForm.controls['itemRows'].controls[i].controls['itemWhenRows'].controls[j].controls.whenValType.value == 'value'">
+                            <label>Value</label>
+                            <input type="text" class="form-control input-sm" formControlName="whenVal">
+                          </div>
+                          <div class="col-md-10" style="padding-left:15px; right: 10px;" *ngIf="ruleAddForm.controls['itemRows'].controls[i].controls['itemWhenRows'].controls[j].controls.whenValType.value == 'property'">
+                            <div class="row">
+                              <div class="col-md-6">
+                                <label>Model</label>
+                                <select class="form-control input-sm" formControlName="whenModelType" (change)="loadProperties($event, 1, i, j)">
+                                    <option value="">Select</option>
+                                    <option *ngFor="let m of modelList" value="{{ m.value }}">{{ m.label }}</option>
+                                  </select>
+                              </div>
+                              <div class="col-md-6">
+                                <label>Property</label>
+                                <select class="form-control input-sm" formControlName="whenPropertyType">
+                                    <option value="">Select</option>
+                                    <option *ngFor="let p of propertyList[1][i][j]" value="{{ p.value }}:{{ p.fieldType }}">{{ p.label }}</option>
+                                  </select>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="col-md-2 braces-select pull-left" style="padding-left:0px; padding-right:27px;">
+                            <label>Braces</label>
+                            <select class="form-control input-sm" formControlName="whenClose">
+                              <option value="[">[</option>
+                              <option value="]">]</option>
+                              <option value="none">None</option>
+                            </select>
+                          </div>
+                        </div>
+                        <div class="row field-type-info alert-info" *ngIf="propertyDataType[0][i][j] && propertyDataType[0][i][j] != ''">Comparision Fieldtype should be {{ propertyDataType[0][i][j] }}</div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-1 offset-md-11 pull-right">
+                      <span class="delete pull-right control-group">
+                        <fa name="minus-circle" *ngIf="ruleAddForm.controls.itemRows.controls[i].controls.itemWhenRows.controls.length > 1" (click)="removeRuleWhen(i, j)"></fa>
+                      </span>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+            <div class="col-md-1 when-add-btn">
+                <span class="add"><fa name="plus-circle" (click)="addMoreWhen(i)"></fa></span>
+            </div>
+          </div>
+          
+
+          <div class="row col-md-2">
+            <label><b>Then</b></label>
+          </div>
+
+          <div class="row when-container">
+            <div class="col-md-11">
+              <div formArrayName="itemThenRows">
+                <div *ngFor="let thenrow of ruleAddForm.controls.itemRows.controls[i].controls.itemThenRows.controls; let k=index"
+                  [formGroupName]="k">
+                  <div class="form-group row" *ngIf="k > 0">
+                    <div class="col-md-2 offset-md-5">
+                      <select class="form-control input-sm" formControlName="thenJoiner">
+                        <option value="AND">AND</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="rule-when-container">
+                    <div class="row">
+                      <div class="col-md-5">
+                        <div class="row">
+                          <div class="col-md-6">
+                            <label>Model</label>
+                            <select class="form-control input-sm" formControlName="thenModel" (change)="loadProperties($event, 2, i, k)">
+                                <option value="">Select</option>
+                                <option *ngFor="let m of modelList" value="{{ m.value }}">{{ m.label }}</option>
+                              </select>
+                          </div>
+                          <div class="col-md-6">
+                            <label>Property</label>
+                            <select class="form-control input-sm" formControlName="thenProperty">
+                                <option value="">Select</option>
+                                <option *ngFor="let p of propertyList[2][i][k]" value="{{ p.value }}">{{ p.label }}</option>
+                              </select>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-md-2">
+                        <label>Type</label>
+                        <select class="form-control input-sm" formControlName="thenValType">
+                          <option value="value">Value</option>
+                          <option value="property">Property</option>
+                        </select>
+                      </div>
+                      <div class="col-md-5" *ngIf="ruleAddForm.controls['itemRows'].controls[i].controls['itemThenRows'].controls[k].controls.thenValType.value == 'value'">
+                        <label>Value</label>
+                        <input type="text" class="form-control input-sm" formControlName="thenVal">
+                      </div>
+                      <div class="col-md-5" *ngIf="ruleAddForm.controls['itemRows'].controls[i].controls['itemThenRows'].controls[k].controls.thenValType.value == 'property'">
+                        <div class="row">
+                          <div class="col-md-6">
+                            <label>Model</label>
+                            <select class="form-control input-sm" formControlName="thenModelType" (change)="loadProperties($event, 3, i, k)">
+                              <option value="">Select</option>
+                              <option *ngFor="let m of modelList" value="{{ m.value }}">{{ m.label }}</option>
+                            </select>
+                          </div>
+                          <div class="col-md-6">
+                            <label>Property</label>
+                            <select class="form-control input-sm" formControlName="thenPropertyType">
+                                <option value="">Select</option>
+                                <option *ngFor="let p of propertyList[3][i][k]" value="{{ p.value }}:{{ p.fieldType }}">{{ p.label }}</option>
+                              </select>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-1 offset-md-11 pull-right">
+                      <span class="delete pull-right control-group">
+                        <fa name="minus-circle" *ngIf="ruleAddForm.controls.itemRows.controls[i].controls.itemThenRows.controls.length > 1" (click)="removeRuleThen(i, k)"></fa>
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-1 when-add-btn">
+                <span class="add"><fa name="plus-circle" (click)="addMoreThen(i)"></fa></span>
+            </div>
+          </div>
+          <!--<div class="form-group row">
+            <div class="col-md-2">
+              <button type="button" (click)="validateRule(i)" class="btn btn-success">Validate</button>
+            </div>
+          </div>-->
+        </div>
+      </div>
+    </div>
+    <button type="submit" [disabled]="ruleAddForm.pristine" class="btn btn-success">Save</button>
+  </form>
+</div>
+<div *ngIf="addingRule">
+  <div class="alert alert-info">
+    <strong>{{ responseData }}!</strong> <br>
+    Click on <a routerLink='/newflow/list'>View</a> to view the rules.
+  </div>
+</div>
