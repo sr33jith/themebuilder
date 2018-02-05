@@ -23,6 +23,13 @@ export class PagecontentComponent implements OnInit, OnChanges {
   public content = '';
   public themePageTitle = '';
   public ruleAddForm;
+  public quilToolbar = {
+    toolbar: [
+      [{ header: [1, 2, false] }],
+      ['bold', 'italic', 'underline'],
+      ['image', 'code-block']
+    ]
+  };
 
   constructor(private builderService: BuilderService, private sanitizer: DomSanitizer,
   private formBuilder: FormBuilder) {
@@ -94,5 +101,14 @@ export class PagecontentComponent implements OnInit, OnChanges {
       // itemWhenRows: this.formBuilder.array([this.initItemWhenRows()]),
       // itemThenRows: this.formBuilder.array([this.initItemThenRows()])
     }, { updateOn: 'submit' });
+  }
+
+  onEditorFocused(event) {
+    // document.getElementsByClassName("ql-tooltip")[0].classList.contains('ql-hidden');
+    return true;
+  }
+
+  invokeEditor(event) {
+    console.log(event);
   }
 }

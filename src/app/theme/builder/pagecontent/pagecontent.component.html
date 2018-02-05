@@ -1,8 +1,13 @@
 <div class="content row">
-  <div class="row">
-    <quill-editor></quill-editor>
+  <div class="col-md-12">
+    <quill-editor [modules]="quilToolbar" [theme]="'bubble'" (click)="invokeEditor($event)" class="quileditor" (focus)="onEditorFocused($event)"></quill-editor>
   </div>
   <!--<app-tinymce></app-tinymce>-->
   <!--<iframe [src]="sanitizedUrl" style="width:100%; height:650px; overflow:scroll;"></iframe>-->
 
+</div>
+<div class="content row">
+  <div class="col-md-12">
+      <quill-editor [modules]="quilToolbar" [theme]="'bubble'" (click)="invokeEditor($event)" class="quileditor" (focus)="onEditorFocused($event)"></quill-editor>
+  </div>
 </div>
