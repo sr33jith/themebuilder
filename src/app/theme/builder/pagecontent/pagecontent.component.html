@@ -1,4 +1,4 @@
-<div class="container">
+<div class="container" *ngIf="!themePreview">
   <form [formGroup]="themeForm" (submit)="savePage()" novalidate>
     <div class="form-group row">
       <div class="col-md-10">
@@ -27,6 +27,14 @@
         </div>
       </div>
     </div>
-    <button type="submit" [disabled]="themePageTitle.pristine" class="btn btn-success">Save</button>
+    <button type="submit" [disabled]="themePageTitle.pristine" class="btn btn-success">Preview</button>
   </form>
+</div>
+<div class="container" *ngIf="themePreview" style="overflow:auto; margin:0 auto;">
+  <div class="row col-md-1 offset-md-11">
+    <fa name="close" (click)="closePreview()"></fa>
+  </div>
+  <div class="row" *ngFor="let previewData of themePagePreviewData; let k=index;">
+      <div class="col-md-12" innerHtml="{{ previewData.themePageRow }}"></div>
+  </div>
 </div>

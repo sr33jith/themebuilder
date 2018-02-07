@@ -3,6 +3,8 @@ import { BuilderService } from './../builder.service';
 import { Subscription } from 'rxjs/Subscription';
 import { DomSanitizer } from '@angular/platform-browser';
 import { FormBuilder, FormControl, FormGroup, Validators, FormArray } from '@angular/forms';
+import { BsModalService } from 'ngx-bootstrap/modal';
+import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
 
 @Component({
   selector: 'app-pagecontent',
@@ -10,7 +12,7 @@ import { FormBuilder, FormControl, FormGroup, Validators, FormArray } from '@ang
   styleUrls: ['./pagecontent.component.css']
 })
 export class PagecontentComponent implements OnInit, OnChanges {
-
+  modalRef: BsModalRef;
   private builderServiceObj: Subscription;
   page: any = '';
   private contentDisplay: any;
@@ -22,6 +24,8 @@ export class PagecontentComponent implements OnInit, OnChanges {
   public sanitizedUrl: any;
   public content = '';
   public themePageTitle = '';
+  public themePagePreviewData = [];
+  public themePreview = false;
   public themeForm;
   public quilToolbar = {
     toolbar: [
@@ -31,8 +35,9 @@ export class PagecontentComponent implements OnInit, OnChanges {
     ]
   };
 
-  constructor(private builderService: BuilderService, private sanitizer: DomSanitizer,
-  private formBuilder: FormBuilder) {
+  constructor(private modalService: BsModalService, 
+    private builderService: BuilderService, private sanitizer: DomSanitizer,
+    private formBuilder: FormBuilder) {
     this.themeForm = this.formBuilder.group({
       'themePageTitle': new FormControl('test title', {
         validators: Validators.required,
@@ -112,16 +117,22 @@ export class PagecontentComponent implements OnInit, OnChanges {
     }, { updateOn: 'submit' });
   }
 
+  closePreview() {
+    this.themePreview = false;
+    this.themePagePreviewData = [];
+  }
   savePage() {
     if (this.themeForm.dirty && this.themeForm.valid) {
-      const ruleData = this.themeForm.controls.itemRows.value; // JSON.stringify(this.themeForm.controls.itemRows.value);
+      this.themePreview = true;
+      this.themePagePreviewData = this.themeForm.controls.itemRows.value; // JSON.stringify(this.themeForm.controls.itemRows.value);
       // const ruleAddData = this.newflowService.parseFormData(ruleData, this.ruleAddForm.controls.groupName.value);
       // console.log(JSON.stringify(ruleAddData));
       // this.newflowService.addRule(JSON.stringify(ruleAddData)).subscribe((resp: any) => {
       //   console.log(resp);
       //   this.responseData = resp._body;
       // }, (error: any) => { console.log('error : ' + error);  });
-      console.log(ruleData);
+      this.modalRef = this.modalService.show('asdasdas sdasd');
+      console.log(this.themePagePreviewData);
       console.log('save success');
     } else {
       // this.addingRule = false;
