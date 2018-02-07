@@ -1,10 +1,9 @@
-import { Component, OnInit, OnChanges } from '@angular/core';
+import { Component, OnInit, OnChanges, ViewChild } from '@angular/core';
 import { BuilderService } from './../builder.service';
 import { Subscription } from 'rxjs/Subscription';
 import { DomSanitizer } from '@angular/platform-browser';
 import { FormBuilder, FormControl, FormGroup, Validators, FormArray } from '@angular/forms';
-import { BsModalService } from 'ngx-bootstrap/modal';
-import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
+import { ModalDirective } from 'ngx-bootstrap/modal';
 
 @Component({
   selector: 'app-pagecontent',
@@ -12,7 +11,8 @@ import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
   styleUrls: ['./pagecontent.component.css']
 })
 export class PagecontentComponent implements OnInit, OnChanges {
-  modalRef: BsModalRef;
+  @ViewChild('lgModal') lgModal: ModalDirective;
+  
   private builderServiceObj: Subscription;
   page: any = '';
   private contentDisplay: any;
@@ -35,7 +35,7 @@ export class PagecontentComponent implements OnInit, OnChanges {
     ]
   };
 
-  constructor(private modalService: BsModalService, 
+  constructor(
     private builderService: BuilderService, private sanitizer: DomSanitizer,
     private formBuilder: FormBuilder) {
     this.themeForm = this.formBuilder.group({
@@ -131,7 +131,7 @@ export class PagecontentComponent implements OnInit, OnChanges {
       //   console.log(resp);
       //   this.responseData = resp._body;
       // }, (error: any) => { console.log('error : ' + error);  });
-      this.modalRef = this.modalService.show('asdasdas sdasd');
+      this.lgModal.show();
       console.log(this.themePagePreviewData);
       console.log('save success');
     } else {

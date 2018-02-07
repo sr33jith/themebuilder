@@ -1,4 +1,4 @@
-<div class="container" *ngIf="!themePreview">
+<div class="container">
   <form [formGroup]="themeForm" (submit)="savePage()" novalidate>
     <div class="form-group row">
       <div class="col-md-10">
@@ -30,11 +30,27 @@
     <button type="submit" [disabled]="themePageTitle.pristine" class="btn btn-success">Preview</button>
   </form>
 </div>
-<div class="container" *ngIf="themePreview" style="overflow:auto; margin:0 auto;">
+<!-- <div class="container" *ngIf="themePreview" style="overflow:auto; margin:0 auto;">
   <div class="row col-md-1 offset-md-11">
     <fa name="close" (click)="closePreview()"></fa>
   </div>
   <div class="row" *ngFor="let previewData of themePagePreviewData; let k=index;">
       <div class="col-md-12" innerHtml="{{ previewData.themePageRow }}"></div>
   </div>
-</div>
+</div> -->
+<div bsModal #lgModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close pull-right" (click)="lgModal.hide()" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+            <div class="row" *ngFor="let previewData of themePagePreviewData; let k=index;">
+                <div class="col-md-12" innerHtml="{{ previewData.themePageRow }}"></div>
+            </div>
+        </div>
+      </div>
+    </div>
+  </div>
