@@ -4,3 +4,7 @@
 .content.row {
   margin-top: 10px;
 }
+.form-group.row.itemrow {
+  border: 1px solid #cccccc;
+  border-radius: 5px;
+}

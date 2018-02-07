@@ -4,6 +4,7 @@ import { Http, HttpModule, RequestOptions, XHRBackend } from '@angular/http';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { RouterModule, Router } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { AngularFontAwesomeModule } from 'angular-font-awesome';
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
@@ -28,6 +29,7 @@ import { QuillModule } from 'ngx-quill';
   ],
   imports: [
     BrowserModule,
+    AngularFontAwesomeModule,
     QuillModule,
     HttpModule,
     HttpClientModule,

@@ -1,13 +1,32 @@
-<div class="content row">
-  <div class="col-md-12">
-    <quill-editor [modules]="quilToolbar" [theme]="'bubble'" (click)="invokeEditor($event)" class="quileditor" (focus)="onEditorFocused($event)"></quill-editor>
-  </div>
-  <!--<app-tinymce></app-tinymce>-->
-  <!--<iframe [src]="sanitizedUrl" style="width:100%; height:650px; overflow:scroll;"></iframe>-->
-
-</div>
-<div class="content row">
-  <div class="col-md-12">
-      <quill-editor [modules]="quilToolbar" [theme]="'bubble'" (click)="invokeEditor($event)" class="quileditor" (focus)="onEditorFocused($event)"></quill-editor>
-  </div>
+<div class="container">
+  <form [formGroup]="themeForm" (submit)="savePage()" novalidate>
+    <div class="form-group row">
+      <div class="col-md-10">
+        <label>Page Title</label>
+        <input type="text" formControlName="themePageTitle" class="form-control input-sm" required [(ngModel)]="themePageTitle">
+      </div>
+    </div>
+    <div formArrayName="itemRows">
+      <!-- Check the correct way to iterate your form array -->
+      <div class="page-template-container" *ngFor="let itemrow of themeForm.controls.itemRows.controls; let i=index;" [formGroupName]="i">
+        <h5>
+          <span class="delete pull-right control-group">
+              <fa name="minus-circle" *ngIf="themeForm.controls.itemRows.controls.length > 1" (click)="removeRow(i)"></fa>
+            </span>
+        </h5>
+        <div class="form-group row itemrow">
+          <div class="col-md-12">
+            <quill-editor [modules]="quilToolbar" formControlName="themePageRow" [style]="{'height':'200px'}" [theme]="'bubble'" (click)="invokeEditor($event)" 
+            class="quileditor" (focus)="onEditorFocused($event)"></quill-editor>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-2 offset-md-10 pull-right control-group">
+            <span class="add"><fa name="plus-circle" (click)="addMore(i)"></fa></span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <button type="submit" [disabled]="themePageTitle.pristine" class="btn btn-success">Save</button>
+  </form>
 </div>

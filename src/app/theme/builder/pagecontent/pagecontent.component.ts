@@ -22,7 +22,7 @@ export class PagecontentComponent implements OnInit, OnChanges {
   public sanitizedUrl: any;
   public content = '';
   public themePageTitle = '';
-  public ruleAddForm;
+  public themeForm;
   public quilToolbar = {
     toolbar: [
       [{ header: [1, 2, false] }],
@@ -33,6 +33,13 @@ export class PagecontentComponent implements OnInit, OnChanges {
 
   constructor(private builderService: BuilderService, private sanitizer: DomSanitizer,
   private formBuilder: FormBuilder) {
+    this.themeForm = this.formBuilder.group({
+      'themePageTitle': new FormControl('test title', {
+        validators: Validators.required,
+        updateOn: 'change'
+      }),
+      itemRows: this.formBuilder.array([this.initItemRows()]) // here
+    });
     this.builderServiceObj = this.builderService.pageSelected$.subscribe(
       page => {
         console.log(page);
@@ -73,13 +80,13 @@ export class PagecontentComponent implements OnInit, OnChanges {
                   sectionsForm.push(sectionData);
 
                 }
-                // this.ruleAddForm = this.formBuilder.group({
-                //   'themePageTitle': new FormControl(pageData.pageTitle, {
-                //     validators: Validators.required,
-                //     updateOn: 'change'
-                //   }),
-                //   // itemRows: this.formBuilder.array([this.initItemRows()]) // here
-                // });
+                this.themeForm = this.formBuilder.group({
+                  'themePageTitle': new FormControl(pageData.pageTitle, {
+                    validators: Validators.required,
+                    updateOn: 'change'
+                  }),
+                  itemRows: this.formBuilder.array([this.initItemRows()]) // here
+                });
               }
             }
           }
@@ -87,20 +94,39 @@ export class PagecontentComponent implements OnInit, OnChanges {
         }, (error: string) => { console.log('error : ' + error);  });
    }
 
+   addMore(i) {
+    const control = <FormArray>this.themeForm.controls['itemRows'];
+    // add new formgroup
+    control.push(this.initItemRows());
+   }
+   removeRow(index) {
+    const control = <FormArray>this.themeForm.controls['itemRows'];
+    control.removeAt(index);
+   }
    initItemRows() {
     return this.formBuilder.group({
       // list all your form controls here, which belongs to your form array
-      'ruleName': new FormControl(null, {
-        validators: Validators.required,
+      'themePageRow': new FormControl(null, {
         updateOn: 'blur'
-      }),
-      'ruleNameDesc': new FormControl('', {
-        updateOn: 'blur'
-      }),
-      // list all your form controls here, which belongs to your form array
-      // itemWhenRows: this.formBuilder.array([this.initItemWhenRows()]),
-      // itemThenRows: this.formBuilder.array([this.initItemThenRows()])
+      })
     }, { updateOn: 'submit' });
+  }
+
+  savePage() {
+    if (this.themeForm.dirty && this.themeForm.valid) {
+      const ruleData = this.themeForm.controls.itemRows.value; // JSON.stringify(this.themeForm.controls.itemRows.value);
+      // const ruleAddData = this.newflowService.parseFormData(ruleData, this.ruleAddForm.controls.groupName.value);
+      // console.log(JSON.stringify(ruleAddData));
+      // this.newflowService.addRule(JSON.stringify(ruleAddData)).subscribe((resp: any) => {
+      //   console.log(resp);
+      //   this.responseData = resp._body;
+      // }, (error: any) => { console.log('error : ' + error);  });
+      console.log(ruleData);
+      console.log('save success');
+    } else {
+      // this.addingRule = false;
+      console.log('save failed');
+    }
   }
 
   onEditorFocused(event) {
