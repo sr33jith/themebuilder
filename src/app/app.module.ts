@@ -19,7 +19,7 @@ import { BuilderService } from './theme/builder/builder.service';
 
 // import { TinymceModule } from 'angular2-tinymce';
 
-import { QuillModule } from 'ngx-quill';
+import { QuillEditorModule } from 'ngx-quill-editor';
 
 @NgModule({
   declarations: [
@@ -32,7 +32,7 @@ import { QuillModule } from 'ngx-quill';
   imports: [
     BrowserModule,
     AngularFontAwesomeModule,
-    QuillModule,
+    QuillEditorModule,
     HttpModule,
     HttpClientModule,
     AppRoutingModule,

@@ -1,4 +1,4 @@
-import { Component, OnInit, OnChanges, ViewChild } from '@angular/core';
+import { Component, OnInit, OnChanges, ViewChild, ViewEncapsulation } from '@angular/core';
 import { BuilderService } from './../builder.service';
 import { Subscription } from 'rxjs/Subscription';
 import { DomSanitizer } from '@angular/platform-browser';
@@ -8,11 +8,11 @@ import { ModalDirective } from 'ngx-bootstrap/modal';
 @Component({
   selector: 'app-pagecontent',
   templateUrl: './pagecontent.component.html',
-  styleUrls: ['./pagecontent.component.css']
+  styleUrls: ['./pagecontent.component.css'],
+  encapsulation: ViewEncapsulation.None
 })
 export class PagecontentComponent implements OnInit, OnChanges {
   @ViewChild('lgModal') lgModal: ModalDirective;
-  
   private builderServiceObj: Subscription;
   page: any = '';
   private contentDisplay: any;
@@ -27,6 +27,7 @@ export class PagecontentComponent implements OnInit, OnChanges {
   public themePagePreviewData = [];
   public themePreview = false;
   public themeForm;
+  public editor;
   public quilToolbar = {
     toolbar: [
       [{ header: [1, 2, false] }],
@@ -112,7 +113,7 @@ export class PagecontentComponent implements OnInit, OnChanges {
     return this.formBuilder.group({
       // list all your form controls here, which belongs to your form array
       'themePageRow': new FormControl(null, {
-        updateOn: 'blur'
+        updateOn: 'change'
       })
     }, { updateOn: 'submit' });
   }
@@ -141,11 +142,25 @@ export class PagecontentComponent implements OnInit, OnChanges {
   }
 
   onEditorFocused(event) {
+    // event.disable();
     // document.getElementsByClassName("ql-tooltip")[0].classList.contains('ql-hidden');
     return true;
   }
 
+  onEditorCreated(quill) {
+    this.editor = quill;
+    console.log('quill is ready! this is current quill instance object', quill);
+  }
+
   invokeEditor(event) {
-    console.log(event);
+    // console.log(event.quilToolbar);
+    // event['toolbar'].show();
+    // this.editor.disable();
+    // console.log(event.theme.tooltip.show());
+    // event.tooltip.
+    // const control = <FormArray>this.themeForm.controls['itemRows'].controls[event].controls.themePageRow;
+    // console.log(control);
+    // control.
+    // control.removeAt(index);
   }
 }

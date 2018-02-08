@@ -9,5 +9,8 @@
   border-radius: 5px;
 }
 .modal-dialog {
-  max-width: 90% !important;
+  max-width: 98% !important;
+}
+.modal-dialog img {
+  max-width: 90%;
 }

@@ -16,8 +16,8 @@
         </h5>
         <div class="form-group row itemrow">
           <div class="col-md-12">
-            <quill-editor [modules]="quilToolbar" formControlName="themePageRow" [style]="{'height':'200px'}" [theme]="'bubble'" (click)="invokeEditor($event)" 
-            class="quileditor" (focus)="onEditorFocused($event)"></quill-editor>
+            <quill-editor formControlName="themePageRow" [style]="{'height':'200px'}" 
+            class="quileditor" (ready)="onEditorCreated($event)"></quill-editor>
           </div>
         </div>
         <div class="row">
