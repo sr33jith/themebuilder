@@ -27,13 +27,28 @@ export class PagecontentComponent implements OnInit, OnChanges {
   public themePagePreviewData = [];
   public themePreview = false;
   public themeForm;
-  public editor;
+  public editor = [];
   public quilToolbar = {
     toolbar: [
       [{ header: [1, 2, false] }],
       ['bold', 'italic', 'underline'],
       ['image', 'code-block']
     ]
+  };
+  public editorOptions = {
+    theme: 'bubble',
+    modules: {
+      toolbar: [
+        ['bold', 'italic', 'underline', 'strike'],
+        [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+        [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
+        [{ 'color': [] }, { 'background': [] }],
+        [{ 'font': [] }],
+        [{ 'align': [] }],
+        ['link', 'image'],
+        ['clean']
+      ]
+    }
   };
 
   constructor(
@@ -147,12 +162,13 @@ export class PagecontentComponent implements OnInit, OnChanges {
     return true;
   }
 
-  onEditorCreated(quill) {
-    this.editor = quill;
+  onEditorCreated(quill, i) {
+    this.editor[i] = quill;
     console.log('quill is ready! this is current quill instance object', quill);
   }
 
-  invokeEditor(event) {
+  invokeEditor(event, i) {
+    this.editor[i].theme.tooltip.show();
     // console.log(event.quilToolbar);
     // event['toolbar'].show();
     // this.editor.disable();
