@@ -6,7 +6,8 @@ import { RouterModule, Router } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AngularFontAwesomeModule } from 'angular-font-awesome';
 
-import { ModalModule } from 'ngx-bootstrap'
+import { ModalModule } from 'ngx-bootstrap';
+import { DndModule } from 'ng2-dnd';
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
@@ -38,7 +39,8 @@ import { QuillEditorModule } from 'ngx-quill-editor';
     AppRoutingModule,
     FormsModule,
     ModalModule.forRoot(),
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    DndModule.forRoot()
   ],
   providers: [BuilderService],
   bootstrap: [AppComponent]

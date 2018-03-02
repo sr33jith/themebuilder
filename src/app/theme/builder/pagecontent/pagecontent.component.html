@@ -1,23 +1,28 @@
 <div class="container">
   <form [formGroup]="themeForm" (submit)="savePage()" novalidate>
     <div class="form-group row">
-      <div class="col-md-10">
+      <div class="col-md-12">
         <label>Page Title</label>
         <input type="text" formControlName="themePageTitle" class="form-control input-sm" required [(ngModel)]="themePageTitle">
       </div>
     </div>
-    <div formArrayName="itemRows">
-      <!-- Check the correct way to iterate your form array -->
-      <div class="page-template-container" *ngFor="let itemrow of themeForm.controls.itemRows.controls; let i=index;" [formGroupName]="i">
+    <div formArrayName="itemRows" dnd-sortable-container [sortableData]="themeForm.controls.itemRows.controls">
+      <div class="page-template-container" *ngFor="let itemrow of themeForm.controls.itemRows.controls; let i=index;" 
+      dnd-sortable [sortableIndex]="i"
+      [formGroupName]="i">
         <h5>
           <span class="delete pull-right control-group">
               <fa name="minus-circle" *ngIf="themeForm.controls.itemRows.controls.length > 1" (click)="removeRow(i)"></fa>
             </span>
         </h5>
-        <div class="form-group row itemrow">
+        <div class="row row-container-header">
           <div class="col-md-12">
-            <quill-editor formControlName="themePageRow" [options]="editorOptions" [style]="{'height':'200px'}" 
-            class="quileditor" (ready)="onEditorCreated($event, i)" (click)="invokeEditor($event, i)"></quill-editor>
+            <div class="row itemrow">
+              <div class="col-md-12">
+                <quill-editor formControlName="themePageRow" [options]="editorOptions" [style]="{'height':'200px'}" 
+                class="quileditor" (ready)="onEditorCreated($event, i)" (click)="invokeEditor($event, i)"></quill-editor>
+              </div>
+            </div>
           </div>
         </div>
         <div class="row">
